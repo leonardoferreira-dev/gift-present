@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gift Message</title>
+    <style>
+        body {
+            background-color: #0b0c2a;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .spotify-player {
+            margin-top: 20px;
+        }
+
+        .carousel {
+            margin: 30px auto;
+            width: 250px;
+            height: 450px;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .carousel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .carousel img.active {
+            display: block;
+        }
+
+        .counter {
+            font-size: 1.2rem;
+            margin: 15px 0;
+        }
+
+        hr {
+            margin: 20px auto;
+            width: 60%;
+            border: 1px solid #ff7ecb;
+        }
+
+        .message {
+            font-size: 1rem;
+            padding: 0 30px;
+            line-height: 1.5;
+        }
+
+        .heart {
+            color: #ff7ecb;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="spotify-player">
+        <iframe style="border-radius:12px"
+            src="https://open.spotify.com/embed/track/2Vc6NJ9PW9gD9q343XFRKx?utm_source=generator" width="300"
+            height="80" frameBorder="0" allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+
+    <div class="carousel" id="carousel">
+        <img src="https://placekitten.com/250/450" class="active" alt="Photo 1">
+        <img src="https://placebear.com/250/450" alt="Photo 2">
+        <img src="https://picsum.photos/id/1025/250/450" alt="Photo 3">
+    </div>
+
+    <div class="counter" id="timer">
+        <span class="heart">❤️ Eu te amo há:</span><br>
+        <span id="time-count">Calculando...</span>
+    </div>
+
+    <hr />
+
+    <div class="message">
+        A cada dia que passa, meu coração se enche mais de carinho e admiração por você. <br>
+        Cada sorriso seu ilumina o meu mundo, e cada abraço me faz sentir que estou exatamente onde deveria estar. <br>
+        Você é a razão dos meus melhores pensamentos, e tudo ao seu lado se torna mais bonito e significativo. <br>
+        Eu te amo para sempre <span class="heart">❤️</span>
+    </div>
+
+    <script>
+        // Carrossel
+        const images = document.querySelectorAll('#carousel img');
+        let currentIndex = 0;
+
+        setInterval(() => {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].classList.add('active');
+        }, 3000);
+
+        // Contador de tempo
+        const startDate = new Date("2023-01-01T00:00:00"); // <-- Mude aqui a data
+        const timerEl = document.getElementById('time-count');
+
+        function updateCounter() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+            const years = Math.floor(days / 365);
+
+            const remDays = days % 365;
+            const remHours = hours % 24;
+            const remMinutes = minutes % 60;
+            const remSeconds = seconds % 60;
+
+            timerEl.innerText = `${years} anos, ${remDays} dias, ${remHours} horas, ${remMinutes} minutos e ${remSeconds} segundos`;
+        }
+
+        setInterval(updateCounter, 1000);
+        updateCounter();
+    </script>
+
+</body>
+
+</html>
