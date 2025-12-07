@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gift Message</title>
     <style>
         body {
@@ -60,24 +61,156 @@
             color: #ff7ecb;
             font-size: 1.2rem;
         }
+
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .music-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 20px;
+        }
+
+        .music-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(255, 126, 203, 0.3);
+        }
+
+        .music-btn:active {
+            transform: scale(0.95);
+        }
+
+        .music-btn.playing {
+            background: rgba(255, 126, 203, 0.2);
+            border-color: rgba(255, 126, 203, 0.4);
+        }
+
+        /* Responsividade para smartphones */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .music-control {
+                top: 15px;
+                right: 15px;
+            }
+
+            .music-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+
+            .carousel {
+                width: 90%;
+                max-width: 300px;
+                height: 400px;
+                margin: 20px auto;
+            }
+
+            .counter {
+                font-size: 1rem;
+                margin: 15px 10px;
+            }
+
+            .counter #time-count {
+                font-size: 0.9rem;
+                display: block;
+                margin-top: 5px;
+            }
+
+            hr {
+                width: 80%;
+                margin: 20px auto;
+            }
+
+            .message {
+                font-size: 0.9rem;
+                padding: 0 20px;
+                line-height: 1.6;
+            }
+
+            .heart {
+                font-size: 1rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .carousel {
+                width: 85%;
+                height: 350px;
+                margin: 15px auto;
+            }
+
+            .counter {
+                font-size: 0.9rem;
+            }
+
+            .counter #time-count {
+                font-size: 0.8rem;
+                line-height: 1.4;
+            }
+
+            .message {
+                font-size: 0.85rem;
+                padding: 0 15px;
+            }
+
+            .music-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+            .music-control {
+                top: 10px;
+                right: 10px;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-   <div class="spotify-player">
-      <iframe style="border-radius:12px"
-        src="https://open.spotify.com/embed/track/50x1Ic8CaXkYNvjmxe3WXy?utm_source=generator"
-        width="300" height="80" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy">
-      </iframe>
+    <div class="music-control">
+        <button class="music-btn playing" id="music-btn" aria-label="Play/Pause música">
+            <span id="music-icon">⏸</span>
+        </button>
     </div>
+
+    <audio id="background-music" autoplay loop preload="auto">
+        <source src="music/alianca.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
 
 
     <div class="carousel" id="carousel">
-        <img src="https://placekitten.com/250/450" class="active" alt="Photo 1">
-        <img src="https://placebear.com/250/450" alt="Photo 2">
-        <img src="https://picsum.photos/id/1025/250/450" alt="Photo 3">
+        <img src="assets/foto1.jpeg" class="active" alt="Photo 1">
+        <img src="assets/foto2.jpeg" alt="Photo 2">
+        <img src="assets/foto3.jpeg" alt="Photo 3">
+        <img src="assets/foto4.jpeg" alt="Photo 4">
+        <img src="assets/foto5.jpeg" alt="Photo 5">
+        <img src="assets/foto6.jpeg" alt="Photo 6">
+        <img src="assets/foto7.jpeg" alt="Photo 7">
+        <img src="assets/foto8.jpeg" alt="Photo 8">
+        <img src="assets/foto9.jpeg" alt="Photo 9">
+        <img src="assets/foto10.jpeg" alt="Photo 10">
     </div>
 
     <div class="counter" id="timer">
@@ -87,16 +220,86 @@
 
     <hr />
 
-   <div class="message">
-        Mesmo em silêncio, você continua sendo o motivo dos meus pensamentos mais profundos.<br>
-        Cada lembrança sua carrega um pedaço do meu coração,<br>
-        e cada espera me mostra o quanto você ainda importa.<br>
+    <div class="message">
+        Mesmo no silêncio, o que a gente viveu continua sendo parte da minha história.<br>
+        Cada lembrança carrega um aprendizado,<br>
+        cada momento deixou marcas que eu nunca vou apagar.<br>
         Eu não sei o que o futuro reserva,<br>
-        mas sei que você sempre será especial. <span class="heart">❤️🥕</span>
+        mas sei que você sempre terá um lugar especial na minha memória e nas minhas orações.<br>
+        Que Deus te conduza por caminhos de paz. <span class="heart">🤍✨</span>
     </div>
 
 
     <script>
+        // Iniciar música automaticamente
+        const audio = document.getElementById('background-music');
+        const musicBtn = document.getElementById('music-btn');
+        const musicIcon = document.getElementById('music-icon');
+        audio.volume = 0.5; // Volume em 50%
+        let musicStarted = false;
+
+        // Atualizar ícone do botão
+        function updateMusicIcon() {
+            if (audio.paused) {
+                musicIcon.textContent = '▶';
+                musicBtn.classList.remove('playing');
+            } else {
+                musicIcon.textContent = '⏸';
+                musicBtn.classList.add('playing');
+            }
+        }
+
+        // Controlar play/pause
+        musicBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+            updateMusicIcon();
+        });
+
+        // Atualizar ícone quando o estado do áudio mudar
+        audio.addEventListener('play', updateMusicIcon);
+        audio.addEventListener('pause', updateMusicIcon);
+
+        function startMusic() {
+            if (!musicStarted && audio.readyState >= 2) {
+                audio.play().then(() => {
+                    musicStarted = true;
+                    updateMusicIcon();
+                }).catch(error => {
+                    // Silenciosamente tenta novamente
+                });
+            }
+        }
+
+        // Aguardar o áudio estar pronto
+        audio.addEventListener('canplaythrough', () => {
+            startMusic();
+        });
+
+        // Tentar iniciar quando a página carregar
+        window.addEventListener('DOMContentLoaded', () => {
+            startMusic();
+        });
+
+        // Tentar iniciar quando a página estiver totalmente carregada
+        window.addEventListener('load', () => {
+            startMusic();
+        });
+
+        // Tentar iniciar imediatamente
+        setTimeout(() => {
+            startMusic();
+        }, 100);
+
+        // Tentar iniciar com qualquer interação do usuário
+        document.addEventListener('click', startMusic, { once: true });
+        document.addEventListener('touchstart', startMusic, { once: true });
+        document.addEventListener('keydown', startMusic, { once: true });
+        document.addEventListener('mousemove', startMusic, { once: true });
+
         // Carrossel
         const images = document.querySelectorAll('#carousel img');
         let currentIndex = 0;
@@ -108,7 +311,7 @@
         }, 3000);
 
         // Contador de tempo
-        const startDate = new Date("2025-04-12T00:00:00"); // <-- Mude aqui a data
+        const startDate = new Date("2025-09-22T00:00:00"); // <-- Mude aqui a data
         const timerEl = document.getElementById('time-count');
 
         function updateCounter() {
@@ -126,8 +329,17 @@
             const remMinutes = minutes % 60;
             const remSeconds = seconds % 60;
 
-            timerEl.innerText = `${years} anos, ${remDays} dias, ${remHours} horas, ${remMinutes} minutos e ${remSeconds} segundos`;
+            // Formato responsivo: quebra linha em telas pequenas
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+                timerEl.innerHTML = `${years} anos, ${remDays} dias<br>${remHours} horas, ${remMinutes} minutos e ${remSeconds} segundos`;
+            } else {
+                timerEl.innerText = `${years} anos, ${remDays} dias, ${remHours} horas, ${remMinutes} minutos e ${remSeconds} segundos`;
+            }
         }
+
+        // Atualizar formato quando a janela for redimensionada
+        window.addEventListener('resize', updateCounter);
 
         setInterval(updateCounter, 1000);
         updateCounter();
